@@ -37,12 +37,11 @@ class MilitaryBase constructor(
 
 
     fun update(now: LocalDateTime, solarRate: Float, windRate: Float) {
-        buildings.update(now)
+        buildings = buildings.update(now)
         energyBalance = energyBalance.updateGeneratedEnergy(buildings.showGeneratedEnergy(solarRate, windRate))
     }
 
     private fun hasNotCryptocurrenciesEnough(type: BuildingType, cryptocurrencyPriceData: CryptocurrencyPriceData) =
             !rawMaterials.hasEnough(cryptocurrencyPriceData)
-
 
 }

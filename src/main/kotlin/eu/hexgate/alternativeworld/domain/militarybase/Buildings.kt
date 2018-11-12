@@ -26,10 +26,13 @@ data class Buildings(
     }
 
 
-    fun update(now: LocalDateTime) =
-            buildingMap.forEach { it ->
-                it._2().update(now)
-            }
+    fun update(now: LocalDateTime): Buildings {
+        buildingMap.forEach {
+            key, value -> buildingMap.put(key, value.update(now))
+        }
+
+        return Buildings(buildingMap)
+    }
 
 
     fun showGeneratedEnergy(solarRate: Float, windRate: Float) =
