@@ -4,8 +4,7 @@ data class MilitaryBaseData(
         val id: Long,
         val userId: Long,
         val rawMaterialsData: RawMaterialsData,
-        val coordinatesData: CoordinatesData,
-
+        val coordinatesData: CoordinatesData
 
 )
 

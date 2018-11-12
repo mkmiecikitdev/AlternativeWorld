@@ -1,5 +1,6 @@
 package eu.hexgate.alternativeworld.domain.militarybase
 
+import eu.hexgate.alternativeworld.domain.common.Attempt
 import java.time.LocalDateTime
 
 data class Generator(
@@ -7,11 +8,11 @@ data class Generator(
         private val energyGenerationData: EnergyGenerationData
 ) : Building {
 
-    override fun isUpgrading(now: LocalDateTime) = basicBuildingData.isUpgrading(now)
-
-    override fun cryptocurrencyPriceData() = basicBuildingData.cryptocurrencyPriceData
-
-    override fun startUpgrading(now: LocalDateTime) = Generator(basicBuildingData.startUpgrading(now), energyGenerationData)
+    override fun tryStartUpgrading(now: LocalDateTime, rawMaterials: RawMaterials): Attempt<Building> =
+            basicBuildingData.tryStartUpgrading(now, rawMaterials)
+                    .map {
+                        Generator(it, energyGenerationData)
+                    }
 
     override fun update(now: LocalDateTime): Generator {
         var updatedEnergyGenerationData = energyGenerationData

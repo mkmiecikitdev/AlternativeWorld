@@ -7,24 +7,9 @@ data class Buildings(
         private val buildingMap: Map<BuildingType, Building>
 ) {
 
-    fun isUpgrading(type: BuildingType, now: LocalDateTime) =
-            buildingMap
-                    .apply(type)
-                    .isUpgrading(now)
-
-    fun cryptocurrencyCost(type: BuildingType) =
-            buildingMap
-                    .apply(type)
-                    .cryptocurrencyPriceData()
-
-    fun startUpgrade(type: BuildingType, now: LocalDateTime): Buildings {
-        val building = buildingMap
-                .apply(type)
-                .startUpgrading(now)
-
-        return Buildings(buildingMap.put(type, building))
-    }
-
+    fun tryStartUpgrading(type: BuildingType, now: LocalDateTime, rawMaterials: RawMaterials) =
+        buildingMap.apply(type)
+                .tryStartUpgrading(now, rawMaterials)
 
     fun update(now: LocalDateTime): Buildings {
         buildingMap.forEach {
@@ -41,6 +26,5 @@ data class Buildings(
     private fun solarPowerStation() = buildingMap.apply(BuildingType.SOLAR_POWER_STATION) as Generator
 
     private fun windFarm() = buildingMap.apply(BuildingType.WIND_FARM) as Generator
-
 
 }
