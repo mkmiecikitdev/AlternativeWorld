@@ -1,6 +1,5 @@
 package eu.hexgate.alternativeworld.domain.militarybase
 
-import eu.hexgate.alternativeworld.domain.BuildingType
 import io.vavr.collection.Map
 import java.time.LocalDateTime
 

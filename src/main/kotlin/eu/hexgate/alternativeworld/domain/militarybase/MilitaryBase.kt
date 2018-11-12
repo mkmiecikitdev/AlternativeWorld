@@ -1,6 +1,5 @@
 package eu.hexgate.alternativeworld.domain.militarybase
 
-import eu.hexgate.alternativeworld.domain.BuildingType
 import eu.hexgate.alternativeworld.domain.common.AppError
 import eu.hexgate.alternativeworld.domain.common.Attempt
 import eu.hexgate.alternativeworld.domain.common.ErrorReason

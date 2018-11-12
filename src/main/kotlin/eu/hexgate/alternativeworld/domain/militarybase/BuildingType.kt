@@ -1,4 +1,4 @@
-package eu.hexgate.alternativeworld.domain
+package eu.hexgate.alternativeworld.domain.militarybase
 
 enum class BuildingType {
     SOLAR_POWER_STATION,

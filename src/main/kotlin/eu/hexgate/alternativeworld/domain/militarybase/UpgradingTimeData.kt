@@ -1,4 +1,4 @@
-package eu.hexgate.alternativeworld.domain
+package eu.hexgate.alternativeworld.domain.militarybase
 
 import java.time.Duration
 import java.time.LocalDateTime
