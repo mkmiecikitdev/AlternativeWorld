@@ -9,4 +9,6 @@ interface Building {
 
     fun update(now: LocalDateTime): Building
 
+    fun data(): BasicBuildingData
+
 }

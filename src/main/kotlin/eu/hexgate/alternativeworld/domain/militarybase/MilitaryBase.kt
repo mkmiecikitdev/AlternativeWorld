@@ -3,24 +3,36 @@ package eu.hexgate.alternativeworld.domain.militarybase
 import java.time.LocalDateTime
 
 class MilitaryBase constructor(
+        var id: Long? = null,
         private val userId: Long,
         private var rawMaterials: RawMaterials,
         private var coordinates: Coordinates,
         private var buildings: Buildings
 ) {
 
-    var id: Long? = null
-        set(value) {
-            if (field == null) field = value
-        }
+    fun tryStartUpgrading(type: BuildingType, now: LocalDateTime) =
+            buildings
+                    .tryStartUpgrading(type, now, rawMaterials)
+                    .map {
+                        buildings = it
+                        return@map this
+                    }
 
-    fun tryUpgrading(type: BuildingType, now: LocalDateTime) =
-            buildings.tryStartUpgrading(type, now, rawMaterials)
 
-
-    fun update(now: LocalDateTime, solarRate: Float, windRate: Float) {
+    fun update(now: LocalDateTime, solarRate: Float, windRate: Float): MilitaryBase {
         buildings = buildings.update(now)
         val energyGeneration = buildings.showGeneratedEnergy(solarRate, windRate)
+        return this;
     }
+
+    fun data() =
+            MilitaryBaseData(
+                    id!!,
+                    userId,
+                    rawMaterials.data(),
+                    coordinates.data(),
+                    buildings.solarPowerStationData(),
+                    buildings.windFarmData()
+            )
 
 }

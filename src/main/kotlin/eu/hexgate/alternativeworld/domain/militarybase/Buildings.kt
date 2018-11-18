@@ -8,20 +8,22 @@ data class Buildings(
 ) {
 
     fun tryStartUpgrading(type: BuildingType, now: LocalDateTime, rawMaterials: RawMaterials) =
-        buildingMap.apply(type)
-                .tryStartUpgrading(now, rawMaterials)
+            buildingMap
+                    .apply(type)
+                    .tryStartUpgrading(now, rawMaterials)
+                    .map { buildingMap.put(type, it) }
+                    .map { Buildings(it) }
 
-    fun update(now: LocalDateTime): Buildings {
-        buildingMap.forEach {
-            key, value -> buildingMap.put(key, value.update(now))
-        }
-
-        return Buildings(buildingMap)
-    }
+    fun update(now: LocalDateTime) =
+            Buildings(buildingMap.mapValues { it.update(now) })
 
 
     fun showGeneratedEnergy(solarRate: Float, windRate: Float) =
             solarPowerStation().showGeneratedEnergy(solarRate) + windFarm().showGeneratedEnergy(windRate)
+
+    fun solarPowerStationData() = solarPowerStation().data()
+
+    fun windFarmData() = windFarm().data()
 
     private fun solarPowerStation() = buildingMap.apply(BuildingType.SOLAR_POWER_STATION) as Generator
 

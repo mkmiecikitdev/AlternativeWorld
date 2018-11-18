@@ -7,11 +7,10 @@ class MilitaryBaseFactory {
 
     fun create(userId: Long): MilitaryBase {
         return MilitaryBase(
-                userId,
-                EnergyBalance.init(),
-                RawMaterials.init(),
-                Coordinates.initWithRandomValues(),
-                initBuildings()
+                userId = userId,
+                rawMaterials = RawMaterials.init(),
+                coordinates = Coordinates.initWithRandomValues(),
+                buildings = initBuildings()
                 )
     }
 
@@ -26,16 +25,16 @@ class MilitaryBaseFactory {
 
     private fun createSolarPowerStation() =
             Generator(
-                    BasicBuildingData.init(
-                            CryptocurrencyPriceData(25, 1.2f),
-                            UpgradingTimeData(Duration.ofMinutes(4), 1.5f)),
-                    EnergyGenerationData(100, 1.2f))
+                    BasicBuildingFunctionality.init(
+                            RateValue.ofInteger(25, 1.2f),
+                            RateValue.ofDuration(Duration.ofMinutes(4), 1.5f)),
+                    RateValue.ofInteger(100, 1.2f))
 
     private fun createWindFarm() =
             Generator(
-                    BasicBuildingData.init(
-                            CryptocurrencyPriceData(30, 1.22f),
-                            UpgradingTimeData(Duration.ofMinutes(6), 1.6f)),
-                    EnergyGenerationData(120, 1.15f))
+                    BasicBuildingFunctionality.init(
+                            RateValue.ofInteger(30, 1.22f),
+                            RateValue.ofDuration(Duration.ofMinutes(6), 1.6f)),
+                    RateValue.ofInteger(120, 1.15f))
 
 }

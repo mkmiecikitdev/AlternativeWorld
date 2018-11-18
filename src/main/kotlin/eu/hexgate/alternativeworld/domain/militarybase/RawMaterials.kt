@@ -6,9 +6,6 @@ data class RawMaterials private constructor(
         val fuel: Int = 100) {
 
 
-    fun buy(cryptocurrencyPriceData: CryptocurrencyPriceData) =
-            buy(cryptocurrencies = cryptocurrencyPriceData.value)
-
     fun buy(cryptocurrencies: Int = 0, water: Int = 0, fuel: Int = 0) =
             RawMaterials(
                     this.cryptocurrencies - cryptocurrencies,
@@ -19,11 +16,14 @@ data class RawMaterials private constructor(
     fun hasEnough(cryptocurrencies: Int = 0, water: Int = 0, fuel: Int = 0) =
             this.cryptocurrencies >= cryptocurrencies && this.water >= water && this.fuel >= fuel
 
-    fun hasEnough(cryptocurrencyPriceData: CryptocurrencyPriceData) =
-            hasEnough(cryptocurrencies = cryptocurrencyPriceData.value)
+    fun data() = RawMaterialsData(cryptocurrencies, water, fuel)
 
     companion object {
+
         fun init() = RawMaterials()
+
+        fun fromData(data: RawMaterialsData) = RawMaterials(data.cryptocurrencies, data.water, data.fuel)
+
     }
 
 }

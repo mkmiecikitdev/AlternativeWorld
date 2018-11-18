@@ -1,6 +1,6 @@
 package eu.hexgate.alternativeworld.domain.militarybase
 
-import eu.hexgate.alternativeworld.domain.militarybase.query.MilitaryBaseQueryFacade
+import eu.hexgate.alternativeworld.domain.militarybase.query.MilitaryBaseQueryService
 import eu.hexgate.alternativeworld.domain.user.UserFacade
 
 class MilitaryBaseModule {
@@ -12,7 +12,7 @@ class MilitaryBaseModule {
                 userFacade
         )
 
-        val queryFacade = MilitaryBaseQueryFacade()
+        val queryFacade = MilitaryBaseQueryService()
 
         return MilitaryBaseFacade(commandFacade, queryFacade)
     }
