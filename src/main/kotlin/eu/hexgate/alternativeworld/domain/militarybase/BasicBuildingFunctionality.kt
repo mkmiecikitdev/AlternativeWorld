@@ -7,12 +7,12 @@ import io.vavr.control.Either
 import java.time.Duration
 import java.time.LocalDateTime
 
-data class BasicBuildingFunctionality private constructor(
+data class BasicBuildingFunctionality constructor(
         private val level: Int = 0,
         private val cryptocurrencyPrice: RateValue<Int>,
         private val upgradingTime: RateValue<Duration>,
         private val finishUpgradingTime: LocalDateTime? = null
-) {
+        ) {
 
     enum class State { NORMAL, UPGRADING, UPGRADED }
 
@@ -29,9 +29,11 @@ data class BasicBuildingFunctionality private constructor(
     fun update(now: LocalDateTime, onNextLevelOperation: (LocalDateTime) -> Unit) =
             if (calculateState(now) == State.UPGRADED) confirmUpgrading(onNextLevelOperation) else this
 
-    fun data() = BasicBuildingData(level, finishUpgradingTime)
+    fun data() =
+            BasicBuildingData(level, finishUpgradingTime)
 
-    private fun isUpgrading(now: LocalDateTime) = calculateState(now) == State.UPGRADING
+    private fun isUpgrading(now: LocalDateTime) =
+            calculateState(now) == State.UPGRADING
 
     private fun confirmUpgrading(onNextLevelOperation: (LocalDateTime) -> Unit): BasicBuildingFunctionality {
         onNextLevelOperation(finishUpgradingTime!!)
@@ -47,13 +49,5 @@ data class BasicBuildingFunctionality private constructor(
 
     private fun hasNotCryptocurrenciesEnough(rawMaterials: RawMaterials) =
             !rawMaterials.hasEnough(cryptocurrencies = cryptocurrencyPrice.value)
-
-    companion object {
-        fun init(cryptocurrencyPrice: RateValue<Int>, upgradingTime: RateValue<Duration>) =
-                BasicBuildingFunctionality(
-                        cryptocurrencyPrice = cryptocurrencyPrice,
-                        upgradingTime = upgradingTime
-                )
-    }
 
 }

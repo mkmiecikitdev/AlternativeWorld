@@ -1,15 +1,15 @@
 package eu.hexgate.alternativeworld.domain.militarybase
 
-import eu.hexgate.alternativeworld.domain.user.UserFacade
+import eu.hexgate.alternativeworld.domain.player.PlayerFacade
 
 class MilitaryBaseCommandFacade(
         private val militaryBaseRepository: MilitaryBaseRepository,
         private val militaryBaseFactory: MilitaryBaseFactory,
-        private val userFacade: UserFacade) {
+        private val playerFacade: PlayerFacade) {
 
 
     fun createNewMilitaryBase() =
-            userFacade.getLoggedUser()
+            playerFacade.getLoggedUser()
                     .flatMap { militaryBaseRepository.save(
                             militaryBaseFactory.create(it.id))
                     }

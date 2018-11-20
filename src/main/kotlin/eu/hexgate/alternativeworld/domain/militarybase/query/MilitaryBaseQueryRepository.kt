@@ -1,13 +1,13 @@
 package eu.hexgate.alternativeworld.domain.militarybase.query
 
-import eu.hexgate.alternativeworld.domain.militarybase.dto.MilitaryBaseExtendedDto
-import eu.hexgate.alternativeworld.domain.militarybase.dto.MilitaryBaseSimpleDto
+import eu.hexgate.alternativeworld.domain.militarybase.viewmodels.MilitaryBaseExtendedView
+import eu.hexgate.alternativeworld.domain.militarybase.viewmodels.MilitaryBaseSimpleView
 import reactor.core.publisher.Flux
 
 interface MilitaryBaseQueryRepository {
 
-    fun findListByUserIdNotEqual(userId: Long): Flux<MilitaryBaseSimpleDto>
+    fun findListByUserIdNotEqual(playerId: Long): Flux<MilitaryBaseSimpleView>
 
-    fun findListWithExtendedDataByUserId(userId: Long): Flux<MilitaryBaseExtendedDto>
+    fun findListWithExtendedDataByUserId(playerId: Long): Flux<MilitaryBaseExtendedView>
 
 }

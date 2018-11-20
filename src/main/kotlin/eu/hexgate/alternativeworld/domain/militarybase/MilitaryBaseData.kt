@@ -7,8 +7,8 @@ data class MilitaryBaseData(
         val userId: Long,
         val rawMaterialsData: RawMaterialsData,
         val coordinatesData: CoordinatesData,
-        val solarPowerStationData: BasicBuildingData,
-        val windPowerStationData: BasicBuildingData
+        val buildingsData: BuildingsData,
+        val energyBalanceData: EnergyBalanceData
 )
 
 data class RawMaterialsData(
@@ -22,11 +22,20 @@ data class CoordinatesData(
         val lat: Float
 )
 
+data class BuildingsData(
+        val solarPowerStationData: BasicBuildingData,
+        val windFarmData: BasicBuildingData
+)
+
 data class BasicBuildingData(
         val level: Int,
         val finishUpgradingTime: LocalDateTime?
 )
 
+data class EnergyBalanceData(
+        val all: Int,
+        val available: Int
+)
 
 
 

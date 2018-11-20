@@ -14,7 +14,7 @@ class MilitaryBaseTests extends Specification {
 
     def 'should create military base for me'() {
 
-        given: 'I have now any military bases'
+        given: 'I have no military bases'
 
         when: 'military base is init for me'
 

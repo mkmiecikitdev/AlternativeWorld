@@ -1,20 +1,22 @@
 package eu.hexgate.alternativeworld.domain.militarybase.query
 
-import eu.hexgate.alternativeworld.domain.user.UserFacade
+import eu.hexgate.alternativeworld.domain.militarybase.viewmodels.MilitaryBaseExtendedView
+import eu.hexgate.alternativeworld.domain.player.PlayerFacade
+import reactor.core.publisher.Flux
 
 class MilitaryBaseQueryService(
         private val militaryBaseQueryRepository: MilitaryBaseQueryRepository,
-        private val userFacade: UserFacade) {
+        private val playerFacade: PlayerFacade) {
 
-    fun getMyMilitaryBases() =
-            userFacade
+    fun getMyMilitaryBases(): Flux<MilitaryBaseExtendedView> =
+            playerFacade
                     .getLoggedUser()
                     .map { it.id }
                     .map { militaryBaseQueryRepository.findListWithExtendedDataByUserId(it) }
 
 
     fun getOtherMilitaryBases() =
-            userFacade
+            playerFacade
                     .getLoggedUser()
                     .map { it.id }
                     .map { militaryBaseQueryRepository.findListByUserIdNotEqual(it) }

@@ -2,9 +2,9 @@ package eu.hexgate.alternativeworld.domain.militarybase
 
 import java.time.LocalDateTime
 
-class MilitaryBase constructor(
+class MilitaryBase(
         var id: Long? = null,
-        private val userId: Long,
+        private val playerId: Long,
         private var rawMaterials: RawMaterials,
         private var coordinates: Coordinates,
         private var buildings: Buildings
@@ -22,17 +22,19 @@ class MilitaryBase constructor(
     fun update(now: LocalDateTime, solarRate: Float, windRate: Float): MilitaryBase {
         buildings = buildings.update(now)
         val energyGeneration = buildings.showGeneratedEnergy(solarRate, windRate)
-        return this;
+        return this
     }
 
     fun data() =
             MilitaryBaseData(
                     id!!,
-                    userId,
+                    playerId,
                     rawMaterials.data(),
                     coordinates.data(),
-                    buildings.solarPowerStationData(),
-                    buildings.windFarmData()
+                    BuildingsData(
+                            buildings.solarPowerStationData(),
+                            buildings.windFarmData()
+                    )
             )
 
 }

@@ -6,6 +6,6 @@ interface MilitaryBaseRepository {
 
     fun save(militaryBase: MilitaryBase): Mono<MilitaryBase>
 
-    fun getById(id: Long): Mono<MilitaryBase>
+    fun loadById(id: Long): Mono<MilitaryBase>
 
 }
