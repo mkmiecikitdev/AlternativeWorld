@@ -33,7 +33,8 @@ class InMemoryMilitaryBaseRepository(private val buildingsCreator: BuildingsCrea
                     playerId = data.userId,
                     coordinates = Coordinates.fromData(data.coordinatesData),
                     rawMaterials = RawMaterials.fromData(data.rawMaterialsData),
-                    buildings = buildingsCreator.recreate(data.buildingsData)
+                    buildings = buildingsCreator.recreate(data.buildingsData),
+                    energyBalance = EnergyBalance.fromData(data.energyBalanceData)
             )
 
 }

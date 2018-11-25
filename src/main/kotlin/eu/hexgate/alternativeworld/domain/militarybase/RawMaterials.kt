@@ -1,15 +1,15 @@
 package eu.hexgate.alternativeworld.domain.militarybase
 
-data class RawMaterials private constructor(
-        val cryptocurrencies: Int = 100,
-        val water: Int = 100,
-        val fuel: Int = 100) {
+data class RawMaterials constructor(
+        val cryptocurrencies: Int = 0,
+        val water: Int = 0,
+        val fuel: Int = 0) {
 
 
-    fun buy(cryptocurrencies: Int = 0, water: Int = 0, fuel: Int = 0) =
+    fun buy(rawMaterials: RawMaterials) =
             RawMaterials(
-                    this.cryptocurrencies - cryptocurrencies,
-                    this.water - water,
+                    this.cryptocurrencies - rawMaterials.cryptocurrencies,
+                    this.water - rawMaterials.water,
                     this.fuel - fuel)
 
 
@@ -20,7 +20,7 @@ data class RawMaterials private constructor(
 
     companion object {
 
-        fun init() = RawMaterials()
+        fun init() = RawMaterials(100, 100, 100)
 
         fun fromData(data: RawMaterialsData) = RawMaterials(data.cryptocurrencies, data.water, data.fuel)
 

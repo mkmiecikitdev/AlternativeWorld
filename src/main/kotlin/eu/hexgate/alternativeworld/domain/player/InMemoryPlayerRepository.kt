@@ -7,16 +7,18 @@ import reactor.core.publisher.Mono
 
 class InMemoryPlayerRepository : PlayerRepository, InMemoryRepositoryView<PlayerData> {
 
-    private var repo = HashMap.empty<Long, Player>()
+    private var repo = HashMap.of(
+            1L, Player(1L, "michal@email.com", "Michal", "password")
+    )
 
-    private var id = 1L
+    private var id = 2L
 
     override val repoView: HashMap<Long, PlayerData>
         get() = repo.mapValues { it.dto() }
 
     override fun save(player: Player): Mono<Player> {
         if (player.id == null) {
-            player.id = ++id
+            player.id = id++
         }
 
         repo = repo.put(player.id, player)

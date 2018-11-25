@@ -8,8 +8,8 @@ data class Generator(
         private val energyGeneration: RateValue<Int>
 ) : Building {
 
-    override fun tryStartUpgrading(now: LocalDateTime, rawMaterials: RawMaterials): Attempt<Building> =
-            basicBuildingFunctionality.tryStartUpgrading(now, rawMaterials)
+    override fun tryStartUpgrading(now: LocalDateTime, rawMaterials: RawMaterials, onSuccess: (RawMaterials) -> Unit): Attempt<Building> =
+            basicBuildingFunctionality.tryStartUpgrading(now, rawMaterials, onSuccess)
                     .map {
                         Generator(it, energyGeneration)
                     }

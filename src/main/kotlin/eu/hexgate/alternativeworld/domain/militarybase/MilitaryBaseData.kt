@@ -33,8 +33,8 @@ data class BasicBuildingData(
 )
 
 data class EnergyBalanceData(
-        val all: Int,
-        val available: Int
+        val available: Int,
+        val all: Int
 )
 
 

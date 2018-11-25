@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 interface Building {
 
-    fun tryStartUpgrading(now: LocalDateTime, rawMaterials: RawMaterials): Attempt<Building>
+    fun tryStartUpgrading(now: LocalDateTime, rawMaterials: RawMaterials, onSuccess: (RawMaterials) -> Unit): Attempt<Building>
 
     fun update(now: LocalDateTime): Building
 
