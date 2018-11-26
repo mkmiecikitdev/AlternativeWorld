@@ -1,5 +1,9 @@
 package eu.hexgate.alternativeworld.domain.militarybase
 
+import eu.hexgate.alternativeworld.domain.common.AppError
+import eu.hexgate.alternativeworld.domain.common.Attempt
+import eu.hexgate.alternativeworld.domain.common.ErrorReason
+import io.vavr.control.Either
 import java.time.LocalDateTime
 
 class MilitaryBase(
@@ -11,13 +15,22 @@ class MilitaryBase(
         private var energyBalance: EnergyBalance
 ) {
 
-    fun tryStartUpgrading(type: BuildingType, now: LocalDateTime) =
-            buildings
-                    .tryStartUpgrading(type, now, rawMaterials)
-                    .map {
-                        buildings = it
-                        return@map id
-                    }
+    fun tryStartUpgrading(type: BuildingType, now: LocalDateTime): Attempt<MilitaryBase> {
+
+        val price = buildings.price(type)
+
+        if(hasRawMaterialsNotEnough(price))
+            return Either.left(AppError(ErrorReason.RAW_MATERIALS_NOT_ENOUGH))
+
+        return buildings
+                .tryStartUpgrading(type, now)
+                .map {
+                    buildings = it
+                    rawMaterials = rawMaterials.buy(price)
+                    return@map this
+                }
+    }
+
 
 
     fun update(now: LocalDateTime, solarRate: Float, windRate: Float): MilitaryBase {
@@ -39,5 +52,7 @@ class MilitaryBase(
                     ),
                     energyBalance.data()
             )
+
+    private fun hasRawMaterialsNotEnough(price: RawMaterials) = !rawMaterials.hasEnough(price)
 
 }

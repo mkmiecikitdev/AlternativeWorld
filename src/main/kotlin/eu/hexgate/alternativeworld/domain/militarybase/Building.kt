@@ -5,10 +5,12 @@ import java.time.LocalDateTime
 
 interface Building {
 
-    fun tryStartUpgrading(now: LocalDateTime, rawMaterials: RawMaterials, onSuccess: (RawMaterials) -> Unit): Attempt<Building>
+    fun tryStartUpgrading(now: LocalDateTime): Attempt<Building>
 
     fun update(now: LocalDateTime): Building
 
     fun data(): BasicBuildingData
+
+    fun price(): RawMaterials
 
 }

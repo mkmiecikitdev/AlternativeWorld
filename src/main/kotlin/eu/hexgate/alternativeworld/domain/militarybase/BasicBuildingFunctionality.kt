@@ -16,14 +16,9 @@ data class BasicBuildingFunctionality constructor(
 
     enum class State { NORMAL, UPGRADING, UPGRADED }
 
-    fun tryStartUpgrading(now: LocalDateTime, rawMaterials: RawMaterials, onSuccess: (RawMaterials) -> Unit): Attempt<BasicBuildingFunctionality> {
+    fun tryStartUpgrading(now: LocalDateTime): Attempt<BasicBuildingFunctionality> {
         if (isUpgrading(now))
             return Either.left(AppError(ErrorReason.BUILDING_IS_UPGRADING))
-
-        if (hasNotCryptocurrenciesEnough(rawMaterials))
-            return Either.left(AppError((ErrorReason.RAW_MATERIALS_NOT_ENOUGH)))
-
-        onSuccess(RawMaterials(cryptocurrencies = cryptocurrencyPrice.value))
 
         return Either.right(BasicBuildingFunctionality(level, cryptocurrencyPrice, upgradingTime, now.plus(upgradingTime.value)))
     }
@@ -33,6 +28,8 @@ data class BasicBuildingFunctionality constructor(
 
     fun data() =
             BasicBuildingData(level, finishUpgradingTime)
+
+    fun price() = RawMaterials(cryptocurrencies = cryptocurrencyPrice.value)
 
     private fun isUpgrading(now: LocalDateTime) =
             calculateState(now) == State.UPGRADING
@@ -48,8 +45,5 @@ data class BasicBuildingFunctionality constructor(
 
         return if (finishUpgradingTime.isAfter(now)) State.UPGRADING else State.UPGRADED
     }
-
-    private fun hasNotCryptocurrenciesEnough(rawMaterials: RawMaterials) =
-            !rawMaterials.hasEnough(cryptocurrencies = cryptocurrencyPrice.value)
 
 }

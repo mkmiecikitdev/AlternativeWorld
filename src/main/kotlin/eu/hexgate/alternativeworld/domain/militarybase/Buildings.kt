@@ -7,10 +7,10 @@ data class Buildings(
         private val buildingMap: Map<BuildingType, Building>
 ) {
 
-    fun tryStartUpgrading(type: BuildingType, now: LocalDateTime, rawMaterials: RawMaterials) =
+    fun tryStartUpgrading(type: BuildingType, now: LocalDateTime) =
             buildingMap
                     .apply(type)
-                    .tryStartUpgrading(now, rawMaterials)
+                    .tryStartUpgrading(now)
                     .map { buildingMap.put(type, it) }
                     .map { Buildings(it) }
 
@@ -20,6 +20,11 @@ data class Buildings(
 
     fun showGeneratedEnergy(solarRate: Float, windRate: Float) =
             solarPowerStation().showGeneratedEnergy(solarRate) + windFarm().showGeneratedEnergy(windRate)
+
+    fun price(buildingType: BuildingType) =
+            buildingMap
+                    .apply(buildingType)
+                    .price()
 
     fun solarPowerStationData() = solarPowerStation().data()
 
