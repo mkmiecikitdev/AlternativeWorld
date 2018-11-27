@@ -27,3 +27,11 @@ data class CordsView(
         val lon: Float,
         val lat: Float
 )
+
+data class BuildingView(
+        val type: String,
+        val level: Int,
+        val cryptocurrencies: Int,
+        val finishUpgradingTime: String,
+        val upgradingTime: Long
+)

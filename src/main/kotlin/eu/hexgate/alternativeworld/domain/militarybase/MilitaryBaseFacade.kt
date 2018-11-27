@@ -9,6 +9,16 @@ class MilitaryBaseFacade(
     fun createNewMilitaryBase() = commandFacade.createNewMilitaryBase()
 
     fun getMyMilitaryBases() =
+        loadOrCreateMyMilitaryBases()
+
+    fun getOtherMilitaryBases() = queryService.getOtherMilitaryBases()
+
+    fun tryToUpgradeBuilding(militaryBaseId: Long, type: String) =
+            commandFacade.tryToUpgradeBuilding(militaryBaseId, type)
+
+
+
+    private fun loadOrCreateMyMilitaryBases() =
             queryService
                     .getMyMilitaryBasesCount()
                     .filter { it > 0 }
@@ -17,10 +27,4 @@ class MilitaryBaseFacade(
                                     .map { 1 }
                     )
                     .flatMap { queryService.getMyMilitaryBases() }
-
-    fun getOtherMilitaryBases() = queryService.getOtherMilitaryBases()
-
-    fun tryToUpgradeBuilding(militaryBaseId: Long, type: String) =
-            commandFacade.tryToUpgradeBuilding(militaryBaseId, type)
-
 }

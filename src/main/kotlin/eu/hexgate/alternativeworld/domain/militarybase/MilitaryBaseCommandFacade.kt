@@ -36,6 +36,14 @@ class MilitaryBaseCommandFacade(
                     }
 
 
+    fun updateMilitaryBase(militaryBaseId: Long, solarRate: Float, windRate: Float) =
+            militaryBaseRepository
+                    .loadById(militaryBaseId)
+                    .map { it.update(timeService.now(), solarRate, windRate) }
+                    .flatMap { militaryBaseRepository.save(it) }
+                    .map { it.id }
+
+
     private fun updateMilitaryBase(militaryBase: Attempt<MilitaryBase>): Mono<Attempt<Long>> =
             militaryBase
                     .map {

@@ -117,5 +117,31 @@ class MilitaryBaseTests extends Specification {
 
     }
 
+    def 'should update energy balance'() {
+
+        given: 'Solar power station is upgrading'
+
+        final baseId = facade
+                .createNewMilitaryBase()
+                .block()
+
+        facade
+                .tryToUpgradeBuilding(baseId, 'SOLAR_POWER_STATION')
+                .block()
+
+        when: 'I want to upgrade it'
+
+        final result = facade
+                .tryToUpgradeBuilding(baseId, 'SOLAR_POWER_STATION')
+                .block()
+                .left
+
+        then: 'I get error'
+
+        result.reason == ErrorReason.BUILDING_IS_UPGRADING
+
+
+    }
+
 
 }
