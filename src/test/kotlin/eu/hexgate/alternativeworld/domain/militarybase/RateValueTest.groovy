@@ -8,22 +8,22 @@ class RateValueTest extends Specification {
 
         when:
 
-        def lvl1 = RateValue.@Companion.ofInteger(1, 2f, 1)
+        def lvl0 = RateValue.@Companion.ofInteger(1, 2f, 0)
+        def lvl1 = lvl0.nextLevel()
         def lvl2 = lvl1.nextLevel()
-        def lvl3 = lvl2.nextLevel()
 
-        def lvl4 = RateValue.@Companion.ofInteger(1, 2f, 4)
+        def lvl3 = RateValue.@Companion.ofInteger(1, 2f, 3)
+        def lvl4 = lvl3.nextLevel()
         def lvl5 = lvl4.nextLevel()
-        def lvl6 = lvl5.nextLevel()
 
         then:
 
-        lvl1.value == 1
-        lvl2.value == 2
-        lvl3.value == 4
-        lvl4.value == 8
-        lvl5.value == 16
-        lvl6.value == 32
+        lvl0.value == 1
+        lvl1.value == 2
+        lvl2.value == 4
+        lvl3.value == 8
+        lvl4.value == 16
+        lvl5.value == 32
 
     }
 

@@ -6,6 +6,7 @@ import eu.hexgate.alternativeworld.domain.common.TimeService
 import eu.hexgate.alternativeworld.domain.player.PlayerFacade
 import io.vavr.control.Either
 import reactor.core.publisher.Mono
+import java.util.function.Function
 
 class MilitaryBaseCommandFacade(
         private val militaryBaseRepository: MilitaryBaseRepository,
@@ -31,11 +32,11 @@ class MilitaryBaseCommandFacade(
                         it.tryStartUpgrading(BuildingType.valueOf(type), timeService.now())
                     }
                     .flatMap {
-                        saveMilitaryBase(it)
+                        updateMilitaryBase(it)
                     }
 
 
-    private fun saveMilitaryBase(militaryBase: Attempt<MilitaryBase>): Mono<Attempt<Long>> =
+    private fun updateMilitaryBase(militaryBase: Attempt<MilitaryBase>): Mono<Attempt<Long>> =
             militaryBase
                     .map {
                         militaryBaseRepository
@@ -45,7 +46,6 @@ class MilitaryBaseCommandFacade(
                                 }
                     }
                     .mapLeft { Mono.just(Either.left<AppError, Long>(it)) }
-                    .getOrElseGet(java.util.function.Function.identity())
-
+                    .getOrElseGet(Function.identity())
 
 }

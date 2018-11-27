@@ -12,21 +12,21 @@ data class RateValue<T> private constructor(
 
     companion object {
 
-        fun ofDuration(value: Duration, rate: Float, level: Int = 1): RateValue<Duration> {
-            fun createDurationMapper(lvl: Int) = {
-                duration: Duration -> Duration.ofSeconds((duration.seconds * Math.pow(rate.toDouble(), lvl.toDouble()).toLong()) )
+        fun ofDuration(value: Duration, rate: Float, level: Int = 0): RateValue<Duration> {
+            fun createDurationMapper(lvl: Int) = { duration: Duration ->
+                Duration.ofSeconds((duration.seconds * Math.pow(rate.toDouble(), lvl.toDouble()).toLong()))
             }
 
-            return RateValue(createDurationMapper(level - 1)(value), rate, createDurationMapper(1))
+            return RateValue(createDurationMapper(level)(value), rate, createDurationMapper(1))
         }
 
 
-        fun ofInteger(value: Int, rate: Float, level: Int = 1): RateValue<Int> {
-            fun createIntegerMapper(lvl: Int) = {
-                value: Int -> (value * Math.pow(rate.toDouble(), lvl.toDouble())).toInt()
+        fun ofInteger(value: Int, rate: Float, level: Int = 0): RateValue<Int> {
+            fun createIntegerMapper(lvl: Int) = { value: Int ->
+                (value * Math.pow(rate.toDouble(), lvl.toDouble())).toInt()
             }
 
-            return RateValue(createIntegerMapper(level - 1)(value), rate, createIntegerMapper(1))
+            return RateValue(createIntegerMapper(level)(value), rate, createIntegerMapper(1))
         }
 
     }

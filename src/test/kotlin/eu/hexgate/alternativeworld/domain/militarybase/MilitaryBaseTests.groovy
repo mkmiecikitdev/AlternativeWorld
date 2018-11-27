@@ -1,6 +1,7 @@
 package eu.hexgate.alternativeworld.domain.militarybase
 
 import eu.hexgate.alternativeworld.domain.AppModule
+import eu.hexgate.alternativeworld.domain.common.ErrorReason
 import eu.hexgate.alternativeworld.domain.militarybase.timeutils.FixedClockProvider
 import spock.lang.Specification
 
@@ -44,12 +45,11 @@ class MilitaryBaseTests extends Specification {
 
     }
 
-
     def 'should create my military base if I have no'() {
 
         given: 'I have no military bases'
 
-        when: 'i ask about my military bases'
+        when: 'I ask about my military bases'
 
         final myBases = facade
                 .getMyMilitaryBases()
@@ -90,5 +90,32 @@ class MilitaryBaseTests extends Specification {
         myBases[0].energyBalance.available == 100
 
     }
+
+    def 'should get error when I want to upgrade building and it is upgrading'() {
+
+        given: 'Solar power station is upgrading'
+
+        final baseId = facade
+                .createNewMilitaryBase()
+                .block()
+
+        facade
+                .tryToUpgradeBuilding(baseId, 'SOLAR_POWER_STATION')
+                .block()
+
+        when: 'I want to upgrade it'
+
+        final result = facade
+                .tryToUpgradeBuilding(baseId, 'SOLAR_POWER_STATION')
+                .block()
+                .left
+
+        then: 'I get error'
+
+        result.reason == ErrorReason.BUILDING_IS_UPGRADING
+
+
+    }
+
 
 }

@@ -30,7 +30,7 @@ class BuildingsCreator(
             )
 
 
-    private fun createSolarPowerStation(lvl: Int = 1, finishUpgradingTime: LocalDateTime? = null) =
+    private fun createSolarPowerStation(lvl: Int = 0, finishUpgradingTime: LocalDateTime? = null) =
             Generator(
                     BasicBuildingFunctionality(
                             level = lvl,
@@ -41,7 +41,7 @@ class BuildingsCreator(
 
 
 
-    private fun createWindFarm(lvl: Int = 1, finishUpgradingTime: LocalDateTime? = null) =
+    private fun createWindFarm(lvl: Int = 0, finishUpgradingTime: LocalDateTime? = null) =
             Generator(
                     BasicBuildingFunctionality(
                             level = lvl,
